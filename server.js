@@ -1,7 +1,9 @@
 
 require('dotenv').config();
-const express    = require('express');
-const mongoose   = require('mongoose');
+import express from 'express';
+import mongoose from 'mongoose';
+import authRoutes from './route/authRoutes';
+import noteRoutes from './route/noteRoutes';
 
 const app = express();
 
@@ -21,6 +23,8 @@ mongoose.connect(process.env.DB, {useNewUrlParser: true});
 // });
 
 
+
+
 //Sample front-end
 // app.route('/page')
 //   .get(function (req, res) {
@@ -32,6 +36,12 @@ mongoose.connect(process.env.DB, {useNewUrlParser: true});
 
 // import your route
 // require('./route/api')(app);
+
+// Routes
+app.use('/api/auth/', authRoutes);
+//app.use('/api/note/', noteRoutes(app));
+//app.use('/api/user/');
+
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
