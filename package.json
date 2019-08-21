@@ -7,14 +7,16 @@
   "description": "A simple Node app built on Express, instantly up and running.",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon server.js --exec babel-node -e js",
     "client": "cd client && npm start",
     "dev": "concurrently \"npm run start\" \"npm run client\""
   },
   "dependencies": {
+    "bcrypt": "^3.0.6",
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
+    "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.2.7",
     "mongoose": "^5.6.0",
@@ -44,7 +46,6 @@
     "chai-http": "^4.3.0",
     "concurrently": "^4.1.2",
     "cross-env": "^5.2.0",
-    "eslint": "^6.2.1",
     "mocha": "^6.2.0"
   }
 }
