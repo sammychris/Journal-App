@@ -1,129 +1,227 @@
 import React from 'react';
 import './App.scss';
 
-const DisplayOutput = (props) => {
+const TimeController = (props) => {
   return (
-    <div id="output">
-      <div id="input">{props.input}</div>
-      <div id="display">{props.result}</div>
+    <div>
+      <div id="main-title">Pomodoro Clock</div>
+      <div id="buttons">
+        <div id='break'>
+          <p>Break Length</p>
+          <div id="break-label">
+            <div className='container-buttons' onClick={props.incrementBreak}>
+              <i id="break-increment" className='fa fa-arrow-up fa-2x'></i>
+            </div>
+            <div id="break-length">{props.break}</div>
+            <div className='container-buttons' onClick={props.decrementBreak}>
+              <i id="break-decrement" className="fa fa-arrow-down fa-2x"></i>
+            </div>
+          </div>
+        </div>
+        <div id="session">
+          <p>Session Length</p>
+          <div id="session-label">
+            <div className='container-buttons' onClick={props.incrementSession}>
+              <i id="session-increment" className='fa fa-arrow-up fa-2x'></i>
+            </div>
+            <div id="session-length">{props.session}</div>
+            <div className='container-buttons' onClick={props.decrementSession}>
+              <i id="session-decrement" className="fa fa-arrow-down fa-2x"></i>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
-
-const ButtonNums = (props) => {
-  return(
-    <div id="buttons">
-        <div id="clear"    onClick={props.cal}   >AC</div>
-        <div id="divide"   onClick={props.input} >/</div>
-        <div id="multiply" onClick={props.input} >x</div>
-        <div id="seven"    onClick={props.input} >7</div>
-        <div id="eight"    onClick={props.input} >8</div>
-        <div id="nine"     onClick={props.input} >9</div>
-        <div id="subtract" onClick={props.input} >-</div>
-        <div id="four"     onClick={props.input} >4</div>
-        <div id="five"     onClick={props.input} >5</div>
-        <div id="six"      onClick={props.input} >6</div>
-        <div id="add"      onClick={props.input} >+</div>
-        <div id="one"      onClick={props.input} >1</div>
-        <div id="two"      onClick={props.input} >2</div>
-        <div id="three"    onClick={props.input} >3</div>
-        <div id="zero"     onClick={props.input} >0</div>
-        <div id="decimal"  onClick={props.input} >.</div>
-        <div id="equals"   onClick={props.cal}   >=</div>
-      </div>
+const PlayPauseReset = (props) => {
+  return (
+        <div id="play-reset">
+          <div id='start-pause' onClick={props.default? props.sessionOperation: props.breakOperation}>
+            <i id="start_stop" className={props.start? 'fa fa-pause fa-2x': 'fa fa-play fa-2x'}></i>
+          </div>
+          <div id="restart" onClick={props.reset}>
+            <i id="reset" className='fa fa-refresh fa-2x'></i>
+          </div>
+        </div>
   )
 }
-
+const DisplayComponent = (props) => {
+  return (
+    <div id='display'>
+      <div id="timer-label">{props.text}</div>
+      <div id="time-left">{props.display}</div>
+    </div>
+  )
+}
 
 class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      input: '',
-      total: '0',
-      evaluated: false
+      sessionStart: false,
+      breakStart: false,
+      session: 25,
+      break: 5,
+      default: true,
+      sessionTimer: 1500,
+      breakTimer: 300,
+      start: false
     }
-    this.getValue = this.getValue.bind(this);
-    this.specialChar = this.specialChar.bind(this);
-  }
-  getValue(e) {
-    let inputVal = this.state.input.replace(/^[0|\+|x|\/|\-]+$/,'');
-    let totalVal = this.state.total.replace(/^[0|\+|x|\/|\-]+$/,'');
-    let currentVal = (!totalVal && !/0$/.test(inputVal)) || this.state.evaluated || /[\+|x|\/|\-]$/.test(inputVal) ?
-        e.target.innerText.replace(/[\.]/,'0.'):
-        e.target.innerText;
 
-    if(totalVal.length > 10 || inputVal.length > 20){
-      this.setState({ total: currentVal, input: 'DIGIT LIMIT MET' })
-      setTimeout(() => { this.setState({ total:currentVal, input:currentVal}) }, 2000);
-      return;
+    this.warning = this.warning.bind(this);
+    this.alarm = this.alarm.bind(this);
+    this.minuteSeconds = this.minuteSeconds.bind(this);
+    this.incrementBreak = this.incrementBreak.bind(this);
+    this.decrementBreak = this.decrementBreak.bind(this);
+    this.incrementSession = this.incrementSession.bind(this);
+    this.decrementSession = this.decrementSession.bind(this);
+    this.sessionOperation = this.sessionOperation.bind(this);
+    this.breakOperation = this.breakOperation.bind(this);
+    this.reset = this.reset.bind(this);
+  }
+  warning () {
+    
+  }
+  alarm () {
+      this.audioBeep.play();
+  }
+  minuteSeconds (sec){
+    let minutes = Math.floor(sec / 60);
+    let seconds = sec % 60;
+    minutes = minutes < 10? '0'+ minutes: minutes;
+    seconds = seconds < 10? '0'+ seconds: seconds;
+    return `${minutes}:${seconds}`;
+  }
+  incrementBreak(){
+    if (!this.state.start && this.state.break < 60) {
+      this.setState({
+        break: this.state.break + 1,
+        breakTimer: this.state.breakTimer + 60
+      });
     }
-    if ( !(totalVal.includes(currentVal) && currentVal === '.')) {
-      if(this.state.evaluated) {
-        if('+-/x'.includes(currentVal)){
-          this.setState({
-            total: currentVal,
-            input: totalVal + currentVal,
-            evaluated: false
-          })
-        } else {
-          this.setState({
-            total: currentVal,
-            input: currentVal,
-            evaluated: false
-          })
+  }
+  decrementBreak(){
+    if (!this.state.start && this.state.break > 1) {
+      this.setState({
+        break: this.state.break - 1,
+        breakTimer: this.state.breakTimer - 60
+      });
+    }
+  }
+  incrementSession(){
+    if (!this.state.start && this.state.session < 60) {
+      this.setState({
+        session: this.state.session + 1,
+        sessionTimer: this.state.sessionTimer + 60
+      });
+    }
+  }
+  decrementSession(){
+    if (!this.state.start && this.state.session > 1 ) {
+      this.setState({
+        session: this.state.session - 1,
+        sessionTimer: this.state.sessionTimer - 60
+      });
+    }
+  }
+  reset () {
+    this.setState({
+      sessionStart: false,
+      breakStart: false,
+      session: 25,
+      break: 5,
+      default: true,
+      sessionTimer: 25 * 60,
+      breakTimer: 5 * 60,
+      start: false
+    });
+    this.audioBeep.pause();
+    this.audioBeep.currentTime = 0;
+  }
+  sessionOperation(){
+    this.setState({
+      sessionStart: !this.state.sessionStart,
+      start: !this.state.start
+    });
+    let time = setInterval( () => {
+      if ( this.state.sessionStart ) {
+        if ( this.state.sessionTimer === 0 ) {
+          this.alarm();
+          this.setState({ 
+            default: false, 
+            sessionStart: !this.state.sessionStart,
+            sessionTimer: this.state.session * 60,
+            start: !this.state.start
+          });
+          clearInterval(time);
+          this.breakOperation();
         }
-     } else {
-        if('+-/x'.includes(currentVal)){
-          if(/[+\-\/x]$/.test(inputVal)) {
-             inputVal = inputVal.slice(0, -1);
-          }
-          this.setState({
-            input: inputVal + currentVal,
-            total: currentVal,
-            evaluated: false
-          })
-        } else {
-          this.setState({
-            input: inputVal + currentVal,
-            total: totalVal.replace(/[x\/\-\+]/g,'') + currentVal,
-            evaluated: false
-          })
+        else {
+          this.setState({ sessionTimer: this.state.sessionTimer - 1 });
         }
       }
-    }
+      else {
+        clearInterval(time);
+      }
+    }, 1000);
   }
-  specialChar(e) {
-    let char = e.target.innerText;
-    let input = this.state.input.replace(/x/g,'*');
-    if (char === '=') {
-      if(!input || input=='0' || /=/g.test(input)) return;
-      let strNum = ''+eval(input);
-      let evaluate = `${eval(input)}`.length > 9?
-          eval(input).toPrecision(9):
-          eval(input);
-      
-      this.setState({
-        input: this.state.input +' = '+evaluate,
-        total: evaluate+'',
-        evaluated: true
-      })
-    } else if (char === 'AC') {
-      this.setState({
-        total: '0',
-        input: ''
-      })
-    }
+  breakOperation() {
+    this.setState({
+      breakStart: !this.state.breakStart,
+      start: !this.state.start
+    });
+    let time = setInterval( () => {
+      if ( this.state.breakStart ) {
+        if ( this.state.breakTimer === 0 ) {
+          this.alarm();
+          this.setState({ 
+            default: true, 
+            breakStart: !this.state.breakStart,
+            breakTimer: this.state.break * 60,
+            start: !this.state.start
+          });
+          clearInterval(time);
+          this.sessionOperation();
+        } 
+        else {
+          this.setState({ breakTimer: this.state.breakTimer - 1 });
+        }
+      } 
+      else {
+        clearInterval(time);
+      }
+    }, 1000);
   }
-  render () {        
+  render () {
+    let display = this.state.default? this.state.sessionTimer: this.state.breakTimer;
     return (
-      <div id="calculator">
-        <DisplayOutput result={this.state.total} input={this.state.input}/>
-        <ButtonNums input={this.getValue} cal={this.specialChar}/>
+      <div id="pomodoro">
+        <TimeController 
+          incrementBreak={this.incrementBreak}
+          decrementBreak={this.decrementBreak}
+          incrementSession={this.incrementSession}
+          decrementSession={this.decrementSession}
+          break={this.state.break}
+          session={this.state.session}
+        />
+        <DisplayComponent 
+          display={this.minuteSeconds(display)}
+          text={this.state.default? 'Session': 'Break'}
+        />
+        <PlayPauseReset 
+          default={this.state.default}
+          sessionOperation={this.sessionOperation}
+          breakOperation={this.breakOperation}
+          start={this.state.start}
+          reset={this.reset}
+         />
+        <audio id="beep" preload="auto" 
+          src="https://goo.gl/65cBl1"
+          ref={(audio) => { this.audioBeep = audio; }} />
       </div>
     )
   }
 }
-
 
 export default App;

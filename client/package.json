@@ -2,7 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://sammychris.github.io/calculator/",
+  "homepage": "https://sammychris.github.io/pomodoro-clock/",
   "dependencies": {
     "gh-pages": "^2.0.1",
     "node-sass": "^4.12.0",
@@ -32,5 +32,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }
