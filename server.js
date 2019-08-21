@@ -30,7 +30,7 @@ mongoose.connect(process.env.DB, {useNewUrlParser: true});
 
 
 // import your route
-require('./route/api')(app);
+// require('./route/api')(app);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
