@@ -43,6 +43,16 @@ app.route('/create')
 			.catch(e => res.json(e));
 	});
 
+app.route('/:id')
+	.get(token_validation, (req, res) => {
+		const { id } = req.params;
+		Note.findById(id)
+			.then(user => {
+				res.json({user});
+			})
+			.catch(e => res.status(404).json(e));
+	});
+
 
 
 export default app;
