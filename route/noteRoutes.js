@@ -30,6 +30,12 @@ const token_validation = (req, res, next) => {
 // 			})
 // 	});
 
+app.route('/')
+	.get(token_validation, (req, res) => {
+		Note.find({})
+			.then(note => res.json(note) )
+			.catch(e => res.status(404).json({ message: 'Note not found!' }));
+	});
 
 app.route('/create')
 	.post(token_validation, (req, res) => {		
@@ -48,8 +54,8 @@ app.route('/:id')
 	.get(token_validation, (req, res) => {
 		const { id } = req.params;
 		Note.findById(id)
-			.then(note => res.json({note}) )
-			.catch(e => res.status(404).json({message: 'Note not found!'}));
+			.then(note => res.json(note) )
+			.catch(e => res.status(404).json({ message: 'Note not found!' }));
 	})
 
 	.put(token_validation, (req, res) => {
@@ -64,7 +70,7 @@ app.route('/:id')
 					.then(saveNote => res.json({ success: true, saveNote }))
 					.catch(e => res.status(500).json(e));
 			})
-			.catch(e => res.status(404).json({message: 'Note not found!'}));
+			.catch(e => res.status(404).json({ message: 'Note not found!' }));
 	})
 
 
