@@ -5,11 +5,18 @@ const UserSchema = mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   bio: { type: String, default: '' },
-  created_on: { type: Date, default: Date.now },
-  followers: [],
-  following: [],
-  followed_topic: [],
-  notes: [],
+  dataJoined: { type: Date, default: Date.now },
+  followers: [
+  	{
+  		type: 'ObjectId', ref: 'User',
+  	}
+  ],
+  following: [
+	  {
+	  	type: 'ObjectId', ref: 'User',
+	  }
+  ],
+  followed_topic: [{ type: String }],
 });
 
 
