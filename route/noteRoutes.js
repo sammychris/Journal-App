@@ -37,6 +37,8 @@ app.route('/')
 			.catch(e => res.status(404).json({ message: 'Note not found!' }));
 	});
 
+
+
 app.route('/create')
 	.post(token_validation, (req, res) => {		
 		const { author, title, body, topic } = req.body;
@@ -48,6 +50,8 @@ app.route('/create')
 			})
 			.catch(e => res.json(e));
 	});
+
+
 
 app.route('/:id')
 

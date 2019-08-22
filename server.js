@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import authRoutes from './route/authRoutes';
 import noteRoutes from './route/noteRoutes';
+import userRoutes from './route/userRoutes';
 
 const app = express();
 require('dotenv').config();
@@ -39,7 +40,7 @@ mongoose.connect(process.env.DB, {useNewUrlParser: true});
 // Routes
 app.use('/api/auth/', authRoutes);
 app.use('/api/note/', noteRoutes);
-//app.use('/api/user/');
+app.use('/api/user/', userRoutes);
 
 
 var db = mongoose.connection;
