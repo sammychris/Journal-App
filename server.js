@@ -1,11 +1,10 @@
-
-require('dotenv').config();
 import express from 'express';
 import mongoose from 'mongoose';
 import authRoutes from './route/authRoutes';
 import noteRoutes from './route/noteRoutes';
 
 const app = express();
+require('dotenv').config();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
