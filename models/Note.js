@@ -4,7 +4,7 @@ const NoteSchema = mongoose.Schema({
   title: { type: String, required: true },
   body:  { type: String, required: true },
   author: { type: 'ObjectId', ref: 'User' },
-  topic: { type: 'ObjectId', ref: 'Topic' },
+  topic: { type: String, required: true },
   created_on: { type: Date, default: Date.now },
 })
 

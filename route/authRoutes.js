@@ -30,8 +30,10 @@ app.route('/register')
 						newUser.save()
 							.then(saveUser => res.json(saveUser))
 							.catch(e => res.status(400).json(e));
-					});
-		});
+					})
+					.catch(e => res.status(400).json(e));
+			})
+			.catch(e => res.status(500).json(e));
 	});
 
 
@@ -65,9 +67,11 @@ app.route('/login')
 								if (err) return console.log(err);
 								return res.json({ message: 'Loggedin successful!', token });
 							})
-					});
+					})
+					.catch(e => res.status(400).json(e));
 
 			})
+			.catch(e => res.status(500).json(e));
 	});
 
 export default app;

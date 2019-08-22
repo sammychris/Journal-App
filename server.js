@@ -38,7 +38,7 @@ mongoose.connect(process.env.DB, {useNewUrlParser: true});
 
 // Routes
 app.use('/api/auth/', authRoutes);
-//app.use('/api/note/', noteRoutes(app));
+app.use('/api/note/', noteRoutes);
 //app.use('/api/user/');
 
 
