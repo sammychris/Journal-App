@@ -10,7 +10,7 @@ const authorization = (req, res, next) => {
         return next();
       });
   } else {
-    res.status(401).json({ message: 'Token not provided' });
+    res.status(401).json({ message: 'User Unauthorized!' });
   }
 }
 
