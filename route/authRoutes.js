@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Router } from 'express';
 import { User } from '../models';
+import { validation } from '../middlewares';
 
 
 require('dotenv').config();
@@ -10,7 +11,7 @@ const saltRounds = 10;
 
 app.route('/register')
 
-	.post((req, res) => {
+	.post(validation, (req, res) => {
 
 		const { name, email, password } = req.body;
 
@@ -39,7 +40,7 @@ app.route('/register')
 
 app.route('/login')
 
-	.post((req, res) => {
+	.post(validation, (req, res) => {
 
 		const { email, password } = req.body;
 

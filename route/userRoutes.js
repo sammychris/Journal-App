@@ -87,14 +87,14 @@ app.route('/follow')
  * @access  Private
  */
 app.route('/topic')
-	.put((req, res) => {
+	.post((req, res) => {
 		const { user_id, topic } = req.body;
 
 		User.findById(user_id)
 			.then(user => {
 
 				// Checking if topic is already followed by the user...
-				const check = author.followed_topic.join(' ').includes(topic);
+				const check = user.followed_topic.join(' ').includes(topic);
 				if (check) return res.json({ message: 'Topic already followed!' });
 
 				// Proceed with adding topic to user's followed_topic list...
