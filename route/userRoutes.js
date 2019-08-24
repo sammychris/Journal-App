@@ -57,7 +57,7 @@ app.route('/follow')
  			if (check) return res.json({ message: 'User already in followers list!' });
 
  			// Proceed with adding user to author's followers list
- 			// And author to user's following list...
+ 			// And add an author to user's following list...
  			User.findById(user_id)
  				.then(user => {
 
@@ -79,5 +79,32 @@ app.route('/follow')
  		.catch(e => res.json('Author does not exists!'))
 
  })
+
+
+ /**
+ * @route   POST user/topic
+ * @desc    follow a topic
+ * @access  Private
+ */
+app.route('/topic')
+	.put((req, res) => {
+		const { user_id, topic } = req.body;
+
+		User.findById(user_id)
+			.then(user => {
+
+				// Checking if topic is already followed by the user...
+				const check = author.followed_topic.join(' ').includes(topic);
+				if (check) return res.json({ message: 'Topic already followed!' });
+
+				// Proceed with adding topic to user's followed_topic list...
+				user.followed_topic.push(topic);
+
+				user.save()
+					.then((saveUser) => res.json({ message: 'Topic added!' }))
+					.catch(e => res.json(e));
+			})
+			.catch(e => res.status(404).json({ message: 'User not found!' }));
+	})
 
 export default app;
