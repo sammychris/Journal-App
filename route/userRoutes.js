@@ -27,7 +27,7 @@ app.route('/:id')
  */
 	.put((req, res) => {
 		const { id } = req.params;
-		// const { bio }
+		const { bio } = req.body;
 		User.findById(id)
 			.then(user => {
 				user.bio = bio;
