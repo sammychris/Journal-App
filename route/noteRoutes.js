@@ -1,46 +1,29 @@
 import { Router } from 'express';
 import { Note } from '../models';
+import { validation, authorization } from '../middlewares';
 
 const app = Router();
 
-
-const token_validation = (req, res, next) => {
-	// Nothing for now...
-	for ( let key in req.body ) {
-		req.body[key] = req.body[key].trim().toLowerCase();
-		if (!req.body[key]) return res.json({ message: 'No empty field!'});
-	}
-	next();
-}
-
-
-// app.route('/newtopic')
-// 	.post(token_validation, (req, res) => {		
-// 		const { topic } = req.body;
-
-// 		NoteTopic.findOne({ topic })
-// 			.then((foundTopic) => {
-// 				if (foundTopic) return res.json({ message: 'Topic already exists' });
-// 				new NoteTopic({ topic })
-// 					.save()
-// 					.then((note) => {
-// 						return res.json({ message: 'You note has been published!', note })
-// 					})
-// 					.catch(e => res.json(e));
-// 			})
-// 	});
-
+ /**
+ * @route   GET note/
+ * @desc    Return all notes
+ * @access  Public
+ */
 app.route('/')
-	.get(token_validation, (req, res) => {
+	.get(validation, authorization, (req, res) => {
 		Note.find({})
 			.then(note => res.json(note) )
 			.catch(e => res.status(404).json({ message: 'Note not found!' }));
 	});
 
 
-
+ /**
+ * @route   POST note/create
+ * @desc    Creates new note
+ * @access  Private
+ */
 app.route('/create')
-	.post(token_validation, (req, res) => {		
+	.post(validation, authorization, (req, res) => {
 		const { author, title, body, topic } = req.body;
 
 		new Note({ author, title, body, topic })
@@ -52,17 +35,27 @@ app.route('/create')
 	});
 
 
+app.route('/:id')  // find by id
 
-app.route('/:id')
-
-	.get(token_validation, (req, res) => {
+/**
+ * @route   GET note/:id
+ * @desc    Returns a note
+ * @access  Public
+ */
+	.get(validation, authorization, (req, res) => {
 		const { id } = req.params;
 		Note.findById(id)
 			.then(note => res.json(note) )
 			.catch(e => res.status(404).json({ message: 'Note not found!' }));
 	})
 
-	.put(token_validation, (req, res) => {
+
+/**
+ * @route   PUT note/:id
+ * @desc    Updates a note
+ * @access  Private
+ */
+	.put(validation, authorization, (req, res) => {
 		const { id } = req.params;
 		const { title, body, topic } = req.body;
 		Note.findById(id)

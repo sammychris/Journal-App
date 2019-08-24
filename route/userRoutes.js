@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import mongoose from 'mongoose';
-const ObjectId = mongoose.Types.ObjectId
 import { User } from '../models';
+import { validation, authorization } from '../middlewares';
 
 const app = Router();
 
@@ -12,7 +12,7 @@ app.route('/:id')
  * @desc    Returns user data
  * @access  Public
  */
-	.get((req, res) => {
+	.get(validation, authorization, (req, res) => {
 		const { id } = req.params;
 		User.findById(id)
 			.then(user => res.json(user))
@@ -25,7 +25,7 @@ app.route('/:id')
  * @desc    update 
  * @access  Private
  */
-	.put((req, res) => {
+	.put(validation, authorization, (req, res) => {
 		const { id } = req.params;
 		const { bio } = req.body;
 		User.findById(id)
@@ -45,7 +45,7 @@ app.route('/:id')
  * @access  Public
  */
 app.route('/follow')
- .post((req, res) => {
+ .post(validation, authorization, (req, res) => {
 
  	const { author_email, user_id  } = req.body;
 
@@ -87,7 +87,7 @@ app.route('/follow')
  * @access  Private
  */
 app.route('/topic')
-	.post((req, res) => {
+	.post(validation, authorization, (req, res) => {
 		const { user_id, topic } = req.body;
 
 		User.findById(user_id)

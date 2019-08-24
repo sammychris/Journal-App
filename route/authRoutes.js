@@ -9,6 +9,12 @@ require('dotenv').config();
 const app = Router();
 const saltRounds = 10;
 
+
+ /**
+ * @route   POST auth/register
+ * @desc    register a user
+ * @access  Public
+ */
 app.route('/register')
 
 	.post(validation, (req, res) => {
@@ -38,6 +44,12 @@ app.route('/register')
 	});
 
 
+
+ /**
+ * @route   POST auth/login
+ * @desc    login a user
+ * @access  Public
+ */
 app.route('/login')
 
 	.post(validation, (req, res) => {
