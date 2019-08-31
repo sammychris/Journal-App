@@ -16,6 +16,7 @@ const close = {
 	fontWeight: '400',
 	color: '#333',
 }
+
 class WritingPage extends React.Component {
 	constructor(props) {
 		super(props);

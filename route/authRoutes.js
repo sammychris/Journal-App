@@ -35,7 +35,7 @@ app.route('/register')
 					.then((hash) => {
 						newUser.password = hash;
 						newUser.save()
-							.then(saveUser => res.json(saveUser))
+							.then(saveUser => res.json({ message: 'Loggedin successful!', success: true }))
 							.catch(e => res.status(400).json(e));
 					})
 					.catch(e => res.status(400).json(e));
@@ -53,7 +53,7 @@ app.route('/register')
 app.route('/login')
 
 	.post(validation, (req, res) => {
-
+		console.log(req.body)
 		const { email, password } = req.body;
 
 		User.findOne({ email })

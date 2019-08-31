@@ -1,6 +1,7 @@
 import React from 'react';
 import { Login, Register } from '../components';
 
+
 class LoginPage extends React.Component {
 	constructor(props){
 		super(props);

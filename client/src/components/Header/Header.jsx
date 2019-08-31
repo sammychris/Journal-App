@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { logout } from '../auth';
 
 const headStyle = {
 	width: '100%',
@@ -16,9 +18,11 @@ const Header = () => {
 				</div>
 				<div style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between', width: '200px'}}>
 					<div style={{ background: '#3e48b3', borderRadius: '20px', padding: '8px 15px', fontWeight: '500' }}>
-						<i className="far fa-edit"></i> Start Writing
-						</div>
-					<span>img</span>
+						<i className="far fa-edit"></i>  Start Writing
+					</div>
+					<Link to="/">
+						<span onClick={logout}>Logout</span>
+					</Link>
 						{
 						/* <li>Home</li>
 						<li>Pofile</li>
