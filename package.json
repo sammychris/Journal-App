@@ -11,7 +11,7 @@
     "start": "cross-env NODE_ENV=production node ./lib/server.js",
     "server": "cross-env NODE_ENV=development nodemon server.js --exec babel-node -e js",
     "client": "cd client && npm start",
-    "client-build": "cd client && npm run build",
+    "client-build": "cd client && npm run eject",
     "server-build": "rm -rf lib && cross-env NODE_ENV=production babel ./ -d lib --ignore \"./client\",\"./node_modules\"",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "npm run server-build && npm run client-build"
