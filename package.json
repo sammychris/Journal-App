@@ -5,11 +5,16 @@
   "name": "hello-express",
   "version": "0.0.1",
   "description": "A simple Node app built on Express, instantly up and running.",
+  "private": true,
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js --exec babel-node -e js",
+    "start": "cross-env NODE_ENV=production node ./lib/server.js",
+    "server": "cross-env NODE_ENV=development nodemon server.js --exec babel-node -e js",
     "client": "cd client && npm start",
-    "dev": "concurrently \"npm run start\" \"npm run client\""
+    "client-build": "cd client && npm run build",
+    "server-build": "rm -rf lib && cross-env NODE_ENV=production babel ./ -d lib --ignore \"./client\",\"./node_modules\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "concurrently \"npm run server-build\" \"npm run client-build\""
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
@@ -45,7 +50,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "concurrently": "^4.1.2",
-    "cross-env": "^5.2.0",
+    "cross-env": "^5.2.1",
     "mocha": "^6.2.0"
   }
 }

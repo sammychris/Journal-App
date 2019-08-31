@@ -4,6 +4,7 @@ import authRoutes from './route/authRoutes';
 import noteRoutes from './route/noteRoutes';
 import userRoutes from './route/userRoutes';
 
+
 const app = express();
 require('dotenv').config();
 
@@ -14,28 +15,11 @@ app.use(express.urlencoded({extended: true}));
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DB, {useNewUrlParser: true});
 
-// http://expressjs.com/en/starter/static-files.html
-// app.use(express.static('public'));
-
-// http://expressjs.com/en/starter/basic-routing.html
-// app.get('/', function(request, response) {
-//   response.sendFile(__dirname + '/views/index.html');
-// });
-
-
-
-
-//Sample front-end
-// app.route('/page')
-//   .get(function (req, res) {
-//     res.sendFile(__dirname + '/views/test.html');
-//   })
-
-// Just testing
-
-
-// import your route
-// require('./route/api')(app);
+// serving static files...
+if (process.env.NODE_ENV === 'production') {
+	console.log('Production environment!');
+	app.use(express.static('client/build'));
+} else { console.log('Development environment!')}
 
 // Routes
 app.use('/api/auth/', authRoutes);
