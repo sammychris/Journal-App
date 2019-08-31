@@ -14,7 +14,7 @@
     "client-build": "cd client && npm run build",
     "server-build": "rm -rf lib && cross-env NODE_ENV=production babel ./ -d lib --ignore \"./client\",\"./node_modules\"",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "npm run client-build"
+    "build": "npm run server-build && npm run client-build"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
