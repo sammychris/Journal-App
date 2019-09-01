@@ -1,19 +1,52 @@
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy and update live.
-
-**Glitch** is the friendly community where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
+# Journal App
 
 
+Chingu Voyage Preword Project
 
-Your Project
-------------
+### Prerequisites
 
-On the front-end,
-- edit `public/client.js`, `public/style.css` and `views/index.html`
-- drag in `assets`, like images or music, to add them to your project
+What things you need to install the software and how to install them
 
-On the back-end,
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
+-   `node`
+-   `npm || yarn`
 
--------------------
+## Getting Started
+
+```shell
+cd Journal-App
+npm run dev
+```
+
+## Running the tests
+
+> TBD
+
+ not yet implemented
+
+## Deployment
+
+> TBD
+
+## Built With
+
+-   [Mongoose](https://mongoosejs.com/) - Elegant mongodb object modeling for node.js.
+-   [Express](https://expressjs.com/) - Minimal and flexible Node.js web application.
+-   [React](https://reactjs.org/) - A JavaScript library for building user interfaces.
+-   [Node](https://nodejs.org/en/) - JavaScript runtime built on Chrome's V8 JavaScript engine.
+
+## Contributing
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+
+## Author
+-   **Samuel C. Okanume** - [sammychris](https://github.com/sammychris)
+
+
+## License
+
+This project is licensed under the MIT License
+
+## Acknowledgments
+
