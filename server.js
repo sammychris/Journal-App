@@ -13,7 +13,7 @@ app.use(express.urlencoded({extended: true}));
 
 
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DB, {useNewUrlParser: true});
+mongoose.connect(process.env.DB, {useMongoClient:true});
 
 // serving static files...
 if (process.env.NODE_ENV === 'production') {
