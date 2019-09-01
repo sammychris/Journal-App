@@ -3,6 +3,9 @@
 
 Chingu Voyage Preword Project
 
+### Description
+An app that allows users to share their journal to other users for the to see and read. This involves helping others to learn and share their experiences and knowledge about life, health, career, politics, social, and more, in a the form of a topic.
+
 ### Prerequisites
 
 What things you need to install the software and how to install them
