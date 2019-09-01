@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import authRoutes from './route/authRoutes';
 import noteRoutes from './route/noteRoutes';
 import userRoutes from './route/userRoutes';
+import config from './config/config';
 
 
 const app = express();
@@ -20,6 +21,8 @@ if (process.env.NODE_ENV === 'production') {
 	console.log('Production environment!');
 	app.use(express.static('client/build'));
 } else { console.log('Development environment!')}
+
+console.log(process.env);
 
 // Routes
 app.use('/api/auth/', authRoutes);
