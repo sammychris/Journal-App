@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Redirect, BrowserRouter, Switch } from 'react-router-dom';
 import { LoginPage } from './LoginPage';
 import { HomePage } from './HomePage';
+import UserPage from './UserPage';
 import { WritingPage } from './WritingPage';
 import { ReadingPage } from './ReadingPage';
 // import { PrivateRoute, PublicRoute } from './components';
@@ -34,9 +35,10 @@ class App extends React.Component {
           // <PrivateRoute path="/journal/write" Component={WritingPage}/>
   }
           <Route exact path="/" component={LoginPage} />
-          <Route path="/home" component={HomePage} />
+          <Route path="/notes" component={HomePage} />
+ {/*         <Route path="/user" component={UserPage} />
           <Route path="/journal/note" component={ReadingPage}/>
-          <Route path="/journal/write" Component={WritingPage}/>
+          <Route path="/journal/write" Component={WritingPage}/>*/}
           
         </Switch>
       </BrowserRouter>
