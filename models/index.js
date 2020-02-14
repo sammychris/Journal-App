@@ -1,6 +1,6 @@
 import Note from './Note';
-import NoteTopic from './NoteTopic';
+import Topic from './Topic';
 import User from './User';
 
 
-export { Note, NoteTopic, User };
+export { Note, Topic, User };
