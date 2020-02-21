@@ -23,6 +23,7 @@ app.route('/register')
 
 		User.findOne({ email })
 			.then((user) => {
+				console.log({user})
 				if (user) {
 					// Already Registered!
 					return res.json({message: 'user already exists!', success: false });
@@ -30,12 +31,12 @@ app.route('/register')
 
 				const newUser = new User({ name, email });
 
-				// hash my password!
+				//hash my password!
 				bcrypt.hash(password, saltRounds)
 					.then((hash) => {
 						newUser.password = hash;
 						newUser.save()
-							.then(saveUser => res.json({ message: 'Loggedin successful!', success: true }))
+							.then(saveUser => res.json({ message: 'Registered Successful!', success: true }))
 							.catch(e => res.status(400).json(e));
 					})
 					.catch(e => res.status(400).json(e));
@@ -53,8 +54,9 @@ app.route('/register')
 app.route('/login')
 
 	.post(validation, (req, res) => {
-		console.log(req.body)
 		const { email, password } = req.body;
+
+		console.log({ email, password })
 
 		User.findOne({ email })
 			.then((user) => {
@@ -71,10 +73,10 @@ app.route('/login')
 						}
 
 						const payload = {
-                id: user._id,
-                name: user.name,
-                email: user.email,
-            };
+			                id: user._id,
+			                name: user.name,
+			                email: user.email,
+			            };
 
 						jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '2 days' }, (err, token) => {
 								if (err) return console.log(err);
