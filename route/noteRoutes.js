@@ -12,7 +12,7 @@ const app = Router();
 app.route('/')
 	.get(validation, authorization, (req, res) => {
 		Note.find({})
-			.then(note => res.json(note) )
+			.then(notes => res.json({ success: true, notes }) )
 			.catch(e => res.status(404).json({ message: 'Note not found!' }));
 	});
 
@@ -29,7 +29,7 @@ app.route('/create')
 		new Note({ author, title, body, topic })
 			.save()
 			.then((note) => {
-				return res.json({ message: 'You note has been published!', note })
+				return res.json({ message: 'You note has been published!', success: true, note })
 			})
 			.catch(e => res.json(e));
 	});
@@ -45,7 +45,7 @@ app.route('/:id')  // find by id
 	.get(validation, authorization, (req, res) => {
 		const { id } = req.params;
 		Note.findById(id)
-			.then(note => res.json(note) )
+			.then(note => res.json({ success: true, note }) )
 			.catch(e => res.status(404).json({ message: 'Note not found!' }));
 	})
 
@@ -64,7 +64,24 @@ app.route('/:id')  // find by id
 				note.body = body;
 				note.topic = topic;
 				note.save()
-					.then(saveNote => res.json({ success: true, saveNote }))
+					.then(note => res.json({ message: 'You note has been updated!', success: true, note }))
+					.catch(e => res.status(500).json(e));
+			})
+			.catch(e => res.status(404).json({ message: 'Note not found!' }));
+	})
+
+
+	/**
+ * @route   PUT note/:id
+ * @desc    Updates a note
+ * @access  Private
+ */
+	.delete(validation, authorization, (req, res) => {
+		const { id } = req.params;
+		Note.findById(id)
+			.then(note => {
+				note.remove()
+					.then(note => res.json({ message: 'Your note has been deleted!', success: true, note }))
 					.catch(e => res.status(500).json(e));
 			})
 			.catch(e => res.status(404).json({ message: 'Note not found!' }));
