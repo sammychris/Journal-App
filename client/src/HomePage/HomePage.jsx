@@ -1,104 +1,106 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Header } from '../components';
+import CardNotes from '../components/CardNotes';
+import NewNote from '../components/NewNote';
+import ReadNote from '../components/ReadNote';
+import UpdateNote from '../components/UpdateNote';
+import Loader from '../components/Loader';
+import { getAll } from '../components/noteApi';
 
-const note = {
-	width: '220px',
-	height: '190px',
-	background: '#fff',
-	color: 'black',
-	padding: '30px',
-	borderRadius: '5px',
-	boxShadow: '3px 4px 10px #000000a3',
-	marginBottom: '100px',
+
+
+function useQuery() {
+  const { search } = useLocation();
+
+  return React.useMemo(() => new URLSearchParams(search), [search]);
 }
+
+
+
 const HomePage = () => {
+	const [ notes, setNotes ] = useState([]);
+	const [ isLoading, setIsLoading ] = useState(false);
+	const [ note, setNote ] = useState({ title:'', body: '', _id: '' });
+	const activeRef = useRef(null);
+	const scrollToElement = () => activeRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start"
+    });
+	const noteId = useQuery().get('id');
+	const noteUrl = useQuery().get('note');
+
+	useEffect(async () => {
+		setIsLoading(true);
+	    await handleFetch();
+	    setIsLoading(false);
+	}, []);
+
+	const handleFetch = async () => {
+		const res = await getAll();
+    	if (res.success) {
+    		const notes = res.notes;
+          	setNotes(notes);
+          	findNote(noteId, notes);
+          	setIsLoading(false);
+        } else alert(res.message);
+	};
+
+	const findNote = (noteId, allNotes=notes) => {
+		const note = allNotes.find(obj => obj._id === noteId);
+		setNote({...note});
+	}
+
+    const newNotes = notes.filter(obj => obj._id !== noteId);
+
+    console.log({activeRef})
 	return (
 		<div>
+			<Loader isLoading={isLoading} />
 			<Header />
-			<div style={{
-				padding: '100px 0 0',
-				margin: 'auto',
-				display: 'flex',
-				flexWrap: 'wrap',
-				width: '1000px',
-				fontSize: '18px',
-				justifyContent: 'space-around',
-			}}>
-				<div className="notes" style={note}>
-					<h1 style={{ fontSize: '24px', color: '#2b2b2b' }}>What's the point of life?</h1>
-					<p style={{ color: '#636363' }}>By Samuel C. Okanume</p>
-					<p>PHOTO</p>
-					<span style={{ color: '#636363' }}>10:00</span>
-				</div>
-				<div className="notes" style={note}>
-					<h1 style={{ fontSize: '24px', color: '#2b2b2b' }}>
-					How to make a tough decision?
-					</h1>
-					<p style={{ color: '#636363' }}>By Samuel C. Okanume</p>
-					<p>PHOTO</p>
-					<span style={{ color: '#636363' }}>10:00</span>
-				</div>
-				<div className="notes" style={note}>
-					<h1 style={{ fontSize: '24px', color: '#2b2b2b' }}>
-					How to understand what you want in life
-					</h1>
-					<p style={{ color: '#636363' }}>By Samuel C. Okanume</p>
-					<p>PHOTO</p>
-					<span style={{ color: '#636363' }}>10:00</span>
-				</div>
-
-				<div className="notes" style={note}>
-					<h1 style={{ fontSize: '24px', color: '#2b2b2b' }}>
-					How to understand what you want in life
-					</h1>
-					<p style={{ color: '#636363' }}>By Samuel C. Okanume</p>
-					<p>PHOTO</p>
-					<span style={{ color: '#636363' }}>10:00</span>
-				</div>
-
-				<div className="notes" style={note}>
-					<h1 style={{ fontSize: '24px', color: '#2b2b2b' }}>
-					How to understand what you want in life
-					</h1>
-					<p style={{ color: '#636363' }}>By Samuel C. Okanume</p>
-					<p>PHOTO</p>
-					<span style={{ color: '#636363' }}>10:00</span>
-				</div>
-				<div className="notes" style={note}>
-					<h1 style={{ fontSize: '24px', color: '#2b2b2b' }}>
-					How to understand what you want in life
-					</h1>
-					<p style={{ color: '#636363' }}>By Samuel C. Okanume</p>
-					<p>PHOTO</p>
-					<span style={{ color: '#636363' }}>10:00</span>
-				</div>
-
-				<div className="notes" style={note}>
-					<h1 style={{ fontSize: '24px', color: '#2b2b2b' }}>
-					How to understand what you want in life
-					</h1>
-					<p style={{ color: '#636363' }}>By Samuel C. Okanume</p>
-					<p>PHOTO</p>
-					<span style={{ color: '#636363' }}>10:00</span>
-				</div>
-				<div className="notes" style={note}>
-					<h1 style={{ fontSize: '24px', color: '#2b2b2b' }}>
-					How to understand what you want in life
-					</h1>
-					<p style={{ color: '#636363' }}>By Samuel C. Okanume</p>
-					<p>PHOTO</p>
-					<span style={{ color: '#636363' }}>10:00</span>
-				</div>
-
-				<div className="notes" style={note}>
-					<h1 style={{ fontSize: '24px', color: '#2b2b2b' }}>
-					How to understand what you want in life
-					</h1>
-					<p style={{ color: '#636363' }}>By Samuel C. Okanume</p>
-					<p>PHOTO</p>
-					<span style={{ color: '#636363' }}>10:00</span>
-				</div>
+			<div ref={activeRef}
+				style={{
+					margin: 'auto',
+					width: '90%',
+					maxWidth: '1000px',
+					fontSize: '18px',
+					height: '100%',
+				}}
+			>
+				{	noteUrl === 'read' && 
+					<ReadNote
+						setIsLoading={setIsLoading}
+						note={note}
+						notes={notes}
+						noteId={noteId}
+						findNote={findNote}
+						setNote={setNote}
+						handleFetch={handleFetch}
+					/>
+				}
+				{	noteUrl === 'edit' &&
+					<UpdateNote
+						setIsLoading={setIsLoading}
+						note={note}
+						setNote={setNote}
+						handleFetch={handleFetch} />
+				}
+				{	noteUrl === 'new' &&
+					<NewNote
+						setIsLoading={setIsLoading}
+						note={note} 
+						handleFetch={handleFetch}
+					/>
+				}
 			</div>
+			<CardNotes
+				setIsLoading={setIsLoading}
+				notes={newNotes}
+				findNote={findNote}
+				handleFetch={handleFetch}
+				scrollToElement={scrollToElement}
+			/>
 		</div>
 	)
 }
