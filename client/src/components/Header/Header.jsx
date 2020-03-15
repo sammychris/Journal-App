@@ -17,10 +17,21 @@ const Header = () => {
 					<h1 style={{ maring: '0', fontSize: '20px', fontWeight: 'normal' }}>Journal App</h1>
 				</div>
 				<div style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between', width: '200px'}}>
-					<div style={{ background: '#3e48b3', borderRadius: '20px', padding: '8px 15px', fontWeight: '500' }}>
-						<i className="far fa-edit"></i>  Start Writing
-					</div>
-					<Link to="/">
+					<Link
+						to='/notes?note=new'
+						style={{
+							background: '#3e48b3',
+							borderRadius: '20px',
+							padding: '8px',
+							fontWeight: '400',
+							color: '#fff',
+							textDecoration: 'none'
+						}}>
+						
+							<i className="far fa-edit"></i>  Start Writing
+
+					</Link>
+					<Link to="/" style={{color: '#fff'}}>
 						<span onClick={logout}>Logout</span>
 					</Link>
 						{
