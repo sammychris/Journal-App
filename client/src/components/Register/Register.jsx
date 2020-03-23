@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { register } from '../auth';
 
 
@@ -15,52 +15,32 @@ const inputsContainer = {
 };
 
 
-class Register extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			name: '',
-      email: '',
-      password: '',
-		}
+function Register ({ controlUser }) {
+	const [name, setName] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
 
-	}
-
-	handleChange(e) {
-    const { name, value } = e.target;
-    this.setState({
-      [name]: value,
-    });
-  }
-
-  handleSubmit(e) {
-    const { name, email, password } = this.state;
+  const handleSubmit = (e) => {
     e.preventDefault();
+    console.log({ name, email, password });
     register({ name, email, password })
       .then((res) => {
       	if (res.success) {
       		setTimeout(() => alert('You may now login'), 4000);
-      		this.props.controlUser();
+      		controlUser();
       	}
       	alert(res.message);
-      	console.log(res.message)
-      	
+      	console.log({res})
       });
   }
-	
 
-	render() {
-		const { name, email, password } = this.state;
-		const { controlUser } = this.props;
-		return (
+	return (
 			<div style={{ padding: '50px', textAlign: 'center'}}>
-				<form style={{ width: '300px' }} onSubmit={this.handleSubmit}>
+				<form style={{ width: '300px' }} onSubmit={handleSubmit}>
 					<div style={inputsContainer}>
 						<input
-							onChange={this.handleChange}
+							onChange={(e) => setName(e.target.value)}
 							value={ name }
 							name="name"
 							type="text"
@@ -69,7 +49,7 @@ class Register extends React.Component {
 					</div>
 					<div style={inputsContainer}>
 						<input
-							onChange={this.handleChange}
+							onChange={(e) => setEmail(e.target.value)}
 							type="email"
 							value={ email }
 							name="email"
@@ -79,8 +59,7 @@ class Register extends React.Component {
 					</div>
 					<div style={inputsContainer}>
 						<input
-							onChange={this.handleChange}
-							type="text"
+							onChange={(e) => setPassword(e.target.value)}
 							value={ password }
 							name="password"
 							placeholder="password123"
@@ -94,11 +73,10 @@ class Register extends React.Component {
 	      <p style={{ fontSize: '16px' }}>
 	          Have an account?
 	          <span onClick={controlUser} style={{ color: '#3782A3', fontWeight: 'bold', cursor: 'pointer' }}> Log in</span>
-	        </p>
-			</div>
-		)
-	}
-	
+	      </p>
+		</div>
+	);
 }
+
 
 export default Register;
