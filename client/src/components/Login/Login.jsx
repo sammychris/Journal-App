@@ -52,7 +52,7 @@ class Login extends React.Component{
 		const { controlUser } = this.props;
 		return (
 			<div style={{ padding: '50px', textAlign: 'center'}}>
-				{ this.state.login && <Redirect to="/home" /> }
+				{ this.state.login && <Redirect to="/notes" /> }
 				<form style={{ width: '300px' }} onSubmit={this.handleSubmit}>
 					<div style={inputsContainer}>
 						<input
