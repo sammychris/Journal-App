@@ -37,6 +37,7 @@ function login(data) { // Login A User
     .then((res) => {
       if (res.token) {
         localStorage.setItem('token', res.token);
+        console.log(localStorage)
       }
       return res;
     });
