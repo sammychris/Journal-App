@@ -3,8 +3,9 @@ import Register from './Register';
 import Header from './Header';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
+import NewNote from './NewNote';
 
 
 export { 
-	Login, Register, Header, PrivateRoute, PublicRoute
+	Login, Register, Header, NewNote, PrivateRoute, PublicRoute
 	};
