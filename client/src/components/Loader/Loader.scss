@@ -1,0 +1,36 @@
+/*Loader*/
+#overlay {
+  z-index: 9999;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100vh;
+  display:table;
+  background: rgba(0, 0, 0, 0.5);
+}
+#overlay i {
+  display:table-cell;
+  vertical-align:middle;
+  text-align:center;
+  color: white;
+  font-size: 50px;
+}
+.spin-big {
+  font-size: 50px;
+  height: 50px;
+  width: 50px;
+
+}
+.spin-normal {
+  font-size: 35px;
+  height: 35px;
+  width: 35px;
+}
+.spin-small {
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+}
