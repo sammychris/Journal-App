@@ -14,7 +14,11 @@ app.use(express.urlencoded({extended: true}));
 
 
 mongoose.Promise = global.Promise;
-mongoose.connect('=mongodb://sammy:journal-db123@ds161780.mlab.com:61780/journal-db', {useNewUrlParser: true});
+mongoose.connect(
+  'mongodb+srv://sammychris:ebusam12@cluster0.tapcx.mongodb.net/Journal-app?retryWrites=true&w=majority',
+  { useNewUrlParser: true, useUnifiedTopology: true }
+);
+
 
 // serving static files...
 if (process.env.NODE_ENV === 'production') {
@@ -22,7 +26,6 @@ if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('client/build'));
 } else { console.log('Development environment!')}
 
-console.log(process.env);
 
 // Routes
 app.use('/api/auth/', authRoutes);
@@ -38,6 +41,6 @@ db.once('open', function() {
 });
 
 // listen for requests :)
-const listener = app.listen(process.env.PORT, function() {
+const listener = app.listen(8000, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });
