@@ -42,7 +42,7 @@ const linkStyle = {
 
 const Card = ({ setIsLoading, _id, title, body, createdAt, findNote, handleFetch, scrollToElement }) => {
 	const [ showSelect, setShowSelect] = useState(false);
-	const optionRef = useRef(null);
+	const clickOptionRef = useRef(null);
     const showOptionRef = useRef(null);
 
 	useEffect(() => {
@@ -53,7 +53,7 @@ const Card = ({ setIsLoading, _id, title, body, createdAt, findNote, handleFetch
 	}, [])
 
 	const clickEvent = (e) => {
-        if (optionRef.current.contains(e.target)) {
+        if (clickOptionRef.current.contains(e.target)) {
             setShowSelect(!showSelect);
         } else if (showOptionRef.current){
             setShowSelect(showOptionRef.current.contains(e.target));
@@ -92,7 +92,7 @@ const Card = ({ setIsLoading, _id, title, body, createdAt, findNote, handleFetch
 				</div>
 			}
 			
-			<a href="#"style={{textDecoration: 'none', zIndex: 2}} ref={optionRef}>
+			<a href="#"style={{textDecoration: 'none', zIndex: 2}} ref={clickOptionRef}>
 				<i class="fas fa-ellipsis-v" style={{float: 'right', padding: 7, fontSize:15, color:'#636363'}}></i>
 			</a>
 			<p style={{fontSize: 16, margin:0}}>
